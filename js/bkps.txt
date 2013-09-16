@@ -1,0 +1,11 @@
+Limpar editor (s/ ligação gss) OK
+Arvore de temas com botão ir para
+nome do utilizador 
+toolbar:
+ - botão home OK
+ - localização actual  OK
+ - coordenada do ponto
+ - distâncias
+ - áreas
+ - log off
+ 

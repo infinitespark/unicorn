@@ -1,0 +1,21 @@
+.layerOn a{
+    color:red;
+}
+
+.layerOff a:hover{
+    color:#1E90FF;
+}
+
+.layerDisabled a {
+    color:#CCCCCC;
+}
+
+.layerDisabled a:hover {
+    color:#CCCCCC;
+    text-decoration:line-through;
+    cursor:pointer;
+}
+
+.checkbox {
+    font-size: xx-small;
+}

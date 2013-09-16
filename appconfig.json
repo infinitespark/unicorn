@@ -1,0 +1,190 @@
+{
+    "core": {
+        "globalobjects": {
+            "activeRequest": {},
+            "requestCount": 0
+        },
+        "settings": {
+            "user": {
+                "layerAutoGoto": false
+            },
+            "app" :{}
+        }
+    },
+    "modules": [
+        {
+            "name": "Oauth2.0",
+            "description": "Class to handle OAuth security",
+            "source": "oauth",
+            "settings": {
+                "oauthurl": "https://accounts.google.com/o/oauth2/auth",
+                "clientId": "888531530449-t6ks5b1n4s3ncad9d0okrfiu96ggnjip.apps.googleusercontent.com",
+                "scopes": "https://www.googleapis.com/auth/mapsengine https://www.googleapis.com/auth/userinfo.profile",
+                "redirectUrl": "https://c9.io/infinite_spark/unicorn/workspace/index.html"
+            }
+        },
+        {
+            "name": "GoogleMapsEngine",
+            "description": "Class to handle Google Maps Engine REST API",
+            "source": "gme",
+            "settings": {                
+                "gmeBaseURL": "https://www.googleapis.com/mapsengine/v1/"
+            }
+        },
+        {
+            "name": "GoogleMaps",
+            "description": "Class to handle Google Maps API",
+            "source": "gmaps",
+            "settings": {
+                "zoom": 6,
+                "centerlng": 38.70985811513784,
+                "centerlat": -9.397779755085931,
+                "styledMap": [
+                    {
+                        "featureType": "all",
+                        "elementType": "all",
+                        "stylers": [
+                            {
+                                "saturation": -50
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "elementType": "labels",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "lightness": 100
+                            },
+                            {
+                                "visibility": "simplified"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "geometry",
+                        "stylers": [
+                            {
+                                "lightness": 90
+                            },
+                            {
+                                "visibility": "simplified"
+                            }
+                        ]
+                    }
+                ],
+                "overlayObjects": {
+                    "points": {
+                        "icon": "icon-map-marker",
+                        "handler": "ns_gmaps.addMarker"
+                    },
+                    "lineStrings": {
+                        "icon": "icon-italic",
+                        "handler": "ns_gmaps.drawPolyline"
+                    },
+                    "polygons": {
+                        "icon": "icon-retweet",
+                        "handler": "ns_gmaps.drawPolygon"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Geo Catalog",
+            "description": "Class to create and mantain a geo objects catalog",
+            "source": "catalog",
+            "settings": {}
+        },
+        {
+            "name": "Editor",
+            "description": "Class for the infowindow editor",
+            "source": "editor",
+            "settings": {}
+        },
+        {
+            "name": "Datatable",
+            "description": "Class to handle Google Charts API Datatable",
+            "source": "datatable",
+            "settings": {
+                "tableOptions": {
+                    "allowHtml": true,
+                    "cssClassNames": {
+                        "tableRow": "table myRow",
+                        "oddTableRow": "table myRow",
+                        "selectedTableRow": "table mySelectedRow",
+                        "hoverTableRow": "table myHoverRow"
+                    },
+                    "page": "enable",
+                    "pageSize": 5,
+                    "showRowNumber": true
+                },
+                "datahandler": {
+                    "string": {
+                        "datatype": "string",
+                        "functionHandler": "stringHandler",
+                        "maxlength": 50
+                    },
+                    "geometry": {
+                        "datatype": "string",
+                        "functionHandler": "geometryHandler"
+                    },
+                    "integer": {
+                        "datatype": "number",
+                        "functionHandler": "parseInt"
+                    },
+                    "double": {
+                        "datatype": "number",
+                        "functionHandler": "parseFloat",
+                        "decimalplaces": 2
+                    },
+                    "points": {
+                        "datatype": "string",
+                        "functionHandler": "geometryHandler"
+                    },
+                    "lineStrings": {
+                        "datatype": "string",
+                        "functionHandler": "geometryHandler"
+                    },
+                    "polygons": {
+                        "datatype": "string",
+                        "functionHandler": "geometryHandler"
+                    }
+                }
+            }
+        },
+        {
+            "name": "GeoJSON",
+            "description": "Class to handle translations from and to GeoJSON",
+            "source": "GeoJSON",
+            "settings": {}
+        },
+        {
+            "name": "Tools",
+            "description": "Class for several small tools",
+            "source": "tools",
+            "settings": {}
+        },
+                {
+            "name": "Analytics",
+            "description": "Class for Google Analytics",
+            "source": "analytics",
+            "settings": {}
+        },
+        {
+            "name": "User Interface",
+            "description": "Class to handle UI design",
+            "source": "interface",
+            "settings": {}
+        }
+    ]
+}

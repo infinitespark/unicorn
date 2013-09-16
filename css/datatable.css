@@ -1,0 +1,31 @@
+.myRow{
+    font-size:8pt;
+    white-space: nowrap;
+}
+
+.mySelectedRow{
+    font-size:8pt;
+    white-space: nowrap;
+    background-color:#e7e9f9;
+}
+
+.myHoverRow:hover{
+    font-size:8pt;
+    white-space: nowrap;    
+    background-color:#CCCCFF;
+}
+
+#table
+{
+    position:relative;    
+    height:250px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    line-height:10px;
+}
+
+.datatable-toolbar
+{
+    position:relative;  
+    padding-bottom:0px;
+}

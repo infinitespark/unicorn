@@ -1,0 +1,2 @@
+{"ts":1379369377866,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":false,"ts":1379369385582,"patch":[[{"diffs":[[1,"git add . \n\ngit commit -m \"First commit\"\n\ngit push -u origin master"]],"start1":0,"start2":0,"length1":0,"length2":67}]],"length":67,"saved":false}
