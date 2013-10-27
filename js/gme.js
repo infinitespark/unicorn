@@ -90,7 +90,7 @@ var ns_gme = {
                     });
                 }
             } else {        
-                ns_gme.features.list("14681502266025613017-13149566016482163597", null, null, null, "nome,URN,tipo_aproveitamento,geometry", "", ns_gme.projects.quicksearch);
+                ns_gme.features.list("14681502266025613017-05520093495095289050", null, null, null, "nome,URN,tipo_aproveitamento,geometry", "", ns_gme.projects.quicksearch);
             } 
         }
     },    

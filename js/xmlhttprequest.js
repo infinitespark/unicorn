@@ -95,7 +95,7 @@ ns_ajax.tries = 2;
             {
                 if(this.status === 200 && this.responseText !== null || this.status == 204){       
                     //parse
-                    var parsedResponse = JSON.parse(this.responseText);                    
+                    var parsedResponse = (this.responseXML)? this.responseXML : JSON.parse(this.responseText);                    
                     callback(parsedResponse,callbackParams); 
                     //hide loader
                     //hideLoader();

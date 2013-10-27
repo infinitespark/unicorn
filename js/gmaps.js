@@ -11,13 +11,12 @@ ns_gmaps.map = null;
 xCore.globalobjects.overlays = {};
 xCore.globalobjects.overlays.gme = {};
 xCore.globalobjects.overlays.placesearch = [];
-xCore.globalobjects.overlays.quicksearch = {};
+xCore.globalobjects.overlays.quicksearch = [];
+xCore.globalobjects.overlays.infowindows = {'active' : 0 , 'ids' : [] ,'objs' : { } };
 
 
 ns_gmaps.mapInitiallize = function()
 {
-    google.maps.visualRefresh = false;
-    
     var styles = ns_gmaps.settings.styledMap;    
     var mapOptions = 
     {
@@ -42,7 +41,7 @@ ns_gmaps.mapInitiallize = function()
         }
     };
     
-    ns_gmaps.map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
+    ns_gmaps.map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
     
     var mapType = new google.maps.StyledMapType(styles, { name:"Mapa" });    
     
@@ -80,26 +79,30 @@ ns_gmaps.addMapsEngineLayer = function (layer)
         if(layer.type === "layer"){
             if(!xCore.globalobjects.overlays.gme[layer.id]){
                 mapsEngineLayer = new google.maps.visualization.MapsEngineLayer({
-                layerId: layer.id,
-                map: ns_gmaps.map,            
-                accessToken: session.oauthtoken,
-                suppressInfoWindows: true
-            });
+                    layerId: layer.id,
+                    mapid: layer.mapid,
+                    themeid: layer.themeid,
+                    map: ns_gmaps.map,            
+                    accessToken: session.oauthtoken,
+                    suppressInfoWindows: true
+                });
             
-            //Listener : force goto viewport
+            //Event Listener : force goto viewport
             google.maps.event.addListener(mapsEngineLayer, 'bounds_changed', function() {
                 if(xCore.settings.user.layerAutoGoto){
                     ns_gmaps.map.fitBounds(mapsEngineLayer.get('bounds'));
                 }
             });
             
-            //Listener : Return layer status
+            //Event Listener : Return layer status
             google.maps.event.addListener(mapsEngineLayer, 'status_changed', function() {
                 if(mapsEngineLayer.status !== "OK"){
+                    layer.disabled = true;
                     ns_interface.showAlert("MapsEngineLayer Class" , "The layer <i>'" + layer.name + "'</i> could not be loaded sucessufuly and it will be disabled!", false );  
-                    ns_interface.disableLayer(layer.id);
+                    ns_interface.disableLayer(layer);
                 } else {
-                    ns_interface.setLayerOnOff(layer.id, true);
+                    layer.on = true;
+                    ns_interface.setLayerOnOff(layer);
                 }
                 hideLoader();
             });
@@ -107,15 +110,33 @@ ns_gmaps.addMapsEngineLayer = function (layer)
             //Infowindow
             var aInfowindow = new google.maps.InfoWindow({});
             
-            //Listener: Click on layer
+            //Event listener: Click on layer ... open Infowindow
             google.maps.event.addListener(mapsEngineLayer, 'click', function(event){
                 if(event){
                     aInfowindow.setPosition(event.latLng);
                     aInfowindow.setContent(ns_gmaps.newInfowindowBody(event.infoWindowHtml));
+                    aInfowindow.id = guid();
                     aInfowindow.open(ns_gmaps.map);
+                    
+                    //Register Infowindow
+                    xCore.globalobjects.overlays.infowindows.active = aInfowindow.id;
+                    xCore.globalobjects.overlays.infowindows.ids.push(aInfowindow.id);
+                    xCore.globalobjects.overlays.infowindows.objs[aInfowindow.id] = aInfowindow;
                 }   
             });
             
+            //Event listener: Close Infowindow
+            google.maps.event.addListener(aInfowindow,'closeclick',function(event){
+                var infowindowids = xCore.globalobjects.overlays.infowindows.ids;
+                for (var i = 0; i < infowindowids.length; i++) {
+                    if(infowindowids[i] === aInfowindow.id){
+                       infowindowids.splice(i,1);
+                    }
+                }
+                delete xCore.globalobjects.overlays.infowindows.objs[aInfowindow.id]
+            });
+            
+            //Event Listener: Infowindow placed in DOM
             google.maps.event.addListener(aInfowindow, 'domready', function(){
                
             }); 
@@ -137,39 +158,80 @@ ns_gmaps.addMapsEngineLayer = function (layer)
 };
 
 ns_gmaps.newInfowindowBody = function(someHtml){
-    /* GSS CONNECTION
-    var fullBody;
-    var aTag = "urn____";	
-	var aux1 = someHtml.substring(someHtml.indexOf(aTag) + aTag.length);
-	var aux2 = aux1.substring(aux1.indexOf("\"") + "\"".length);
-	var aURN = aux2.substr(0, aux2.indexOf("\""));
-
-    someHtml += "<div id='editorToolbar'><a alt='Ver mais...' href='#' onclick=\"ns_gss.getObjectInfo('" + aURN + "', '"+ aTag + "');\"><button class='btn btn-primary' style='width:100%;' type='button'><i class='icon-plus icon-white'></i></button></a></div>";
-    */
-    var aInfowindow = $(someHtml)[0];
-    aInfowindow.id = 'myinfowindowid';
-    var aInfowindowcontent = aInfowindow.getElementsByClassName("infowindowbody")[0];
-    aInfowindowcontent.style.maxHeight = document.height / 2 - 10 + "px";
-    var aTable = aInfowindowcontent.getElementsByTagName("table")[0];
-    aTable.className = "table table-striped";
+    var aInfowindow = document.createElement('div');
+    aInfowindow.innerHTML = someHtml;
     
-    var toolbar = $("<div class='infowindowtoolbar'><button class='btn btn-mini' type='button' title='Saber mais...'><i class='icon-plus'></i></button></div>")[0];
-    aInfowindow.appendChild(toolbar);
+    var gssConnect = false;
+    var gssKey;
+    var infowindowUrn;
 
+    if(aInfowindow.getElementsByClassName('urn').length > 0){
+        infowindowUrn = aInfowindow.getElementsByClassName('urn')[0];
+        gssKey = infowindowUrn.innerText;
+        aInfowindow.id = "iw__" + gssKey;
+        infowindowUrn.id = aInfowindow.id + '__urn';
+        gssConnect = true;
+    } else {
+        aInfowindow.id = "iw__" + guid();
+    }
+    
+    var infowindowTitle;
+    if (aInfowindow.getElementsByClassName('infowindowtitle').length > 0) {
+        infowindowTitle = aInfowindow.getElementsByClassName('infowindowtitle')[0];
+        infowindowTitle.id = aInfowindow.id + '__title';
+    }
+    
+    var infowindowBody;
+    if(aInfowindow.getElementsByClassName('infowindowbody').length > 0){
+        infowindowBody = aInfowindow.getElementsByClassName("infowindowbody")[0];
+        infowindowBody.id = aInfowindow.id + "__body";
+        
+        var aTable;
+        if(infowindowBody.getElementsByTagName("table").length > 0){
+            aTable = infowindowBody.getElementsByTagName("table")[0];
+            aTable.id = "gmedetails";
+            aTable.className = "table table-striped";
+        }
+    } else {
+        infowindowBody = aInfowindow;
+    }
+    
+    if (gssConnect && gssKey) {
+        var toolbarDiv= document.createElement('div');
+            toolbarDiv.id = aInfowindow.id + "__toolbar";
+            toolbarDiv.setAttribute('class','infowindowtoolbar');
+            
+        var gssButton = document.createElement('button');
+            gssButton.id = aInfowindow.id + '__gssbutton';
+            gssButton.setAttribute('class','btn btn-mini');
+            gssButton.setAttribute('type','button');
+            gssButton.setAttribute('title','Saber mais...');
+            gssButton.setAttribute('onclick',"ns_gss.native.request('object_info', 'info', { 'objects': '" + gssKey + "' , 'return_info' : 'description' }, ns_gss.editor.compose)");
+            
+        var gssIcon = document.createElement('i');
+            gssIcon.setAttribute('class','icon-plus');
+            
+        gssButton.appendChild(gssIcon);
+        toolbarDiv.appendChild(gssButton);
+        aInfowindow.appendChild(toolbarDiv);
+    }
+    
+    infowindowBody.style.maxHeight = document.height / 2 - 20 + "px";
     return aInfowindow;
 };
 
-ns_gmaps.removeMapsEngineLayer = function (id)
+ns_gmaps.removeMapsEngineLayer = function (layer)
 {
     //Remove from map
-    xCore.globalobjects.overlays.gme[id].setMap(null);
+    xCore.globalobjects.overlays.gme[layer.id].setMap(null);
     
     //Set tree element off
-    ns_interface.setLayerOnOff(id, false);
+    layer.on = false;
+    ns_interface.setLayerOnOff(layer);
     
     //remove from global object
-    if(xCore.globalobjects.overlays.gme[id]){        
-        delete xCore.globalobjects.overlays.gme[id];
+    if(xCore.globalobjects.overlays.gme[layer.id]){        
+        delete xCore.globalobjects.overlays.gme[layer.id];
     }    
 };
 
@@ -207,20 +269,20 @@ ns_gmaps.addSimpleMarker = function(coords, tooltip, overlay)
 {       
     if(coords)
     {   
-        //Only one marker per quicksearch
-        if (xCore.globalobjects.overlays[overlay]) {
-            xCore.globalobjects.overlays[overlay].setMap(null);
-        }
-        
-        xCore.globalobjects.overlays[overlay] = new google.maps.Marker({
+        var newSimpleMarker = new google.maps.Marker({
+            id: guid(),
             position : new google.maps.LatLng(coords[1] , coords[0]),
             map: ns_gmaps.map,
             title:tooltip,
             draggable:false
         });
+    
+        if(xCore.settings.user.layerAutoGoto){
+            ns_gmaps.map.setCenter(newSimpleMarker.getPosition());
+            ns_gmaps.map.setZoom(15);    
+        }
         
-        ns_gmaps.map.setCenter(xCore.globalobjects.overlays[overlay].getPosition());
-        ns_gmaps.map.setZoom(15);
+        xCore.globalobjects.overlays[overlay].push(newSimpleMarker);
     }
 };
 
@@ -347,7 +409,10 @@ ns_gmaps.clearOverlay = function(anOverlay)
 {   
    var overlay = xCore.globalobjects.overlays[anOverlay];
    if(overlay){
-       overlay.setMap(null);
+       for (var i = 0; i < overlay.length; i++) {
+           overlay[i].setMap(null);
+       }
+
        var inputField = document.getElementById(anOverlay);
        if(inputField){
            inputField.value = '';
@@ -374,13 +439,14 @@ ns_gmaps.setupPlaceSearch = function(){
   autocomplete.bindTo('bounds', ns_gmaps.map);
   
   var infowindow = new google.maps.InfoWindow();
-  xCore.globalobjects.overlays.placesearch = new google.maps.Marker({
+  
+  var newPlaceSearch = new google.maps.Marker({
     map: ns_gmaps.map
   });
   
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
         infowindow.close();
-        xCore.globalobjects.overlays.placesearch.setVisible(false);
+        newPlaceSearch.setVisible(false);
         input.className = '';
         var place = autocomplete.getPlace();
         if (!place.geometry) {
@@ -389,16 +455,19 @@ ns_gmaps.setupPlaceSearch = function(){
           return;
         }
         
-        // If the place has a geometry, then present it on a map.
-        if (place.geometry.viewport) {
-          ns_gmaps.map.fitBounds(place.geometry.viewport);
-        } else {
-          ns_gmaps.map.setCenter(place.geometry.location);
-          ns_gmaps.map.setZoom(17);  // Why 17? Because it looks good.
+        // If the place has a geometry and user wants to go to, then present it on a map.
+        
+        if(xCore.settings.user.layerAutoGoto){
+            if (place.geometry.viewport) {
+              ns_gmaps.map.fitBounds(place.geometry.viewport);
+            } else {
+              ns_gmaps.map.setCenter(place.geometry.location);
+              ns_gmaps.map.setZoom(17);  // Why 17? Because it looks good.
+            }
         }
-
-        xCore.globalobjects.overlays.placesearch.setPosition(place.geometry.location);
-        xCore.globalobjects.overlays.placesearch.setVisible(true);
+        
+        newPlaceSearch.setPosition(place.geometry.location);
+        newPlaceSearch.setVisible(true);
         
         var address = '';
         if (place.address_components) {
@@ -410,7 +479,9 @@ ns_gmaps.setupPlaceSearch = function(){
         }
         
         infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-        infowindow.open(ns_gmaps.map, xCore.globalobjects.overlays.placesearch);
+        infowindow.open(ns_gmaps.map, newPlaceSearch);
+        
+        xCore.globalobjects.overlays.placesearch.push(newPlaceSearch);
   });
 };
 

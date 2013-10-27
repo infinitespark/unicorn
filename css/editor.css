@@ -5,17 +5,31 @@
     z-index: 5;
 }
 
+.urn{
+    display:none;
+}
+
 .infowindowtitle
 {
     font-size: 14px;
     font-weight: bold;
-    line-height:50px;
+    line-height:30px;
+    text-transform:uppercase;
+}
+
+.infowindownavigation
+{
+    position:absolute;
+    top: 30px;
+    line-height: 30px;
 }
 
 .infowindowbody
 {
     font-size: 12px;
-    overflow:auto;
+    overflow-y:auto;
+    overflow-x:hidden;
+    margin: 5px 0px 5px 5px;
 }
 
 .infowindowbody::-webkit-scrollbar-track
@@ -37,7 +51,33 @@
 
 .infowindowtoolbar
 {
+    position:absolute;
+    bottom: 0px;
+    right: 0px;
     text-align:right;
     padding-top:5px;
 }
 
+.infowindowpage
+{
+    position: absolute;
+    width: 100%;
+    height:100%;
+    top: 100px;
+}
+
+.table table-striped {
+    font-size: 10px;
+}
+
+nav nav-tabs {
+    margin:0px;
+}
+
+#label{
+    white-space: nowrap;
+}
+
+#value{
+    white-space: nowrap;
+}

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<return xmlns:sw="http://www.gesmallworld.com/sw" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:swgml="http://www.gesmallworld.com/swgml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gml="http://www.opengis.net/gml" xmlns:wfs="http://www.opengis.net/wfs" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <service_response service="application_schema" request="schema" request_id="7949628D9FB33332A098607F7D8D0DC6-1380040881885" session_id="7949628D9FB33332A098607F7D8D0DC6">
+    <schema>
+      <database>
+        <dataset internalName="gis" externalName="Gis">
+          <xsd:schema>
+            <xsd:import namespace="http://www.gesmallworld.com/swgml" schemaLocation="http://edpsmwprdap1.cpdprd.pt:80/gss/resource/xsd/swgml.xsd?token=-1446725831" />
+            <xsd:element name="gis.p_aproveitamento_hidroelectrico" sw:name="Aproveitamento Hidroeléctrico" type="sw:gis.p_aproveitamento_hidroelectricoType" substitutionGroup="gml:_Feature" />
+            <xsd:complexType name="gis.p_aproveitamento_hidroelectricoType">
+              <xsd:complexContent>
+                <xsd:extension base="gml:AbstractFeatureType">
+                  <xsd:sequence>
+                    <xsd:element name="nome" sw:name="Nome" minOccurs="0" type="xsd:string" />
+                    <xsd:element name="bacia_hidrografica" sw:name="Bacia Hidrográfica" minOccurs="0" type="xsd:string" />
+                    <xsd:element name="curso_agua" sw:name="Curso de Água" minOccurs="0" type="xsd:string" />
+                    <xsd:element name="nome_barragens" sw:name="Nome das Barragens" minOccurs="0" type="xsd:string" />
+                    <xsd:element name="tipo_aproveitamento" sw:name="Tipo de Aproveitamento" minOccurs="0" type="xsd:string" />
+                    <xsd:element name="potencia_instalada" sw:name="Potência Instalada" minOccurs="0" type="gml:MeasureType" />
+                    <xsd:element name="numero_grupos" sw:name="Número de Grupos" minOccurs="0" type="xsd:integer" />
+                    <xsd:element name="capacidade_util_hm3" sw:name="Capacidade Útil (hm3)" minOccurs="0" type="xsd:double" />
+                    <xsd:element name="capacidade_util_gwh" sw:name="Capacidade Util (gwh)" minOccurs="0" type="xsd:double" />
+                    <xsd:element name="p_centro_producao" sw:name="Centro de Produção" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_barragem_albufeiras" sw:name="Barragens/Albufeiras" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_centrals" sw:name="Centrais" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_circuito_hidraulicos" sw:name="Circuitos Hidráulicos" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_estacao_meteorologicas" sw:name="Estações Meteorológicas" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_sitio_patrimonials" sw:name="Sitios Patrimoniais" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_ponto_monitorizacaos" sw:name="Pontos de Monitorização" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_monitorizacao_hidrogeologicas" sw:name="Monitorização Hidrogeológica" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_recursos_faunisticoss" sw:name="Local Monitorização Recursos Faunísticos" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_local_monitorizacao_floras" sw:name="Locais de Monitorização de Flora" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_terreno_sobrantes" sw:name="Terreno Sobrante" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_zona_proteccaos" sw:name="Zona de Protecção do Sítio" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_carta_geologica_pormenors" sw:name="Cartas Geológicas de Pormenor" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_campanha_prospeccao_geol_geots" sw:name="Campanhas de Prospecção Geol e Geot" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="p_documento_externos" sw:name="Documentos Externos" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:attributeGroup ref="xlink:simpleLink" />
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="codigo" sw:name="Código" minOccurs="0" type="xsd:string" />
+                    <xsd:element name="link" sw:name="Link" minOccurs="0" type="xsd:string" />
+                    <xsd:element name="actualizado_por" sw:name="Actualizado Por" minOccurs="0" type="xsd:string" />
+                    <xsd:element name="data_actualizacao" sw:name="Data de Actualização" minOccurs="0" type="xsd:dateTime" />
+                    <xsd:element name="observacoes" sw:name="Observações" minOccurs="0" type="xsd:string" />
+                    <xsd:element name="ponto" sw:name="Ponto" minOccurs="0" type="gml:GeometryPropertyType" />
+                  </xsd:sequence>
+                </xsd:extension>
+              </xsd:complexContent>
+            </xsd:complexType>
+          </xsd:schema>
+        </dataset>
+      </database>
+    </schema>
+  </service_response>
+</return>
+

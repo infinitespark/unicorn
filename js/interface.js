@@ -236,43 +236,6 @@ ns_interface.enableDisableButton = function(id, io)
     }
 };
 
-
-/**
- * THEME TREE
- **/
-
-/** Tree style....
-ns_interface.buildThemeTree = function(response){    
-    var tree = document.getElementById("themeTree");
-    if(response){
-        if(response.maps){
-            var mapsFound = response.maps;
-            for (var i = 0 ; i < mapsFound.length ; i++){
-                var branch = document.createElement("ul");
-                branch.setAttribute("class","nav nav-list");
-                branch.id = mapsFound[i].id;
-                branch.innerHTML = "<a href='#' onclick='collapseThis(this.id)'>" + mapsFound[i].name + "</a>";                
-                tree.appendChild(branch);                
-                ns_gme.assets.getByType("maps", mapsFound[i].id, ns_interface.buildThemeTree);                
-            }                    
-        } 
-        else if(response.contents){
-            var layersFound = response.contents;
-            var branch = document.getElementById(response.id);
-            for (var i = 0 ; i < layersFound.length ; i++){
-                var leaf = document.createElement("li");
-                leaf.setAttribute("class","nav nav-pills nav-stacked");
-                leaf.id = layersFound[i].id;
-                leaf.innerHTML = "<a href='#' onclick='gohere(this.id)'>" + layersFound[i].name + "</a>";                
-                branch.appendChild(leaf);        
-            }
-        }
-    } else {
-        ns_gme.assets.list("maps", ns_interface.buildThemeTree);         
-    }
-};
- */
-
 ns_interface.buildThemeTree = function(){ 	
 		xCore.globalobjects.themes = {};		           
 		ns_gme.assets.list("maps", ns_interface.processMaps);  
@@ -299,22 +262,29 @@ ns_interface.processMaps = function (response){
         xCore.globalobjects.themes[mapsFound[i].id].contents = [];
 		//Interface
 		var option = document.createElement("option");        
-		    option.id = mapsFound[i].id;
+		    option.id = "op__" + mapsFound[i].id;
 		    option.innerHTML = mapsFound[i].name;			
 			
 		comboBox.appendChild(option);	
 	}
 };
 
+ns_interface.selectMap = function(){
+  var selectList = document.getElementById('themeSelect');  
+  var mapid = selectList.selectedOptions[0].id;
+  
+};
+
 ns_interface.requestLayers = function(mapid){
 	if(mapid){ 
 	    if(mapid != 0){
+	        mapid = mapid.split("__")[1];
     	    var aMap = xCore.globalobjects.themes[mapid];	
     		if(aMap && aMap.requested){                    			
                 ns_interface.buildBranch(mapid, aMap.contents);            
     		} else {
     			ns_gme.assets.getByType('maps', mapid, ns_interface.processLayers);			
-    		}    
+    		}
 	    } else {
 	        document.getElementById("layerList").innerHTML = '';
 	    }
@@ -355,38 +325,23 @@ ns_interface.processLayers = function(response){
 }; 
 
 ns_interface.registerLayer = function (mapid, aLayer){
-    //xCore.globalobjects.themes[mapid].contents.push(aLayer);
     xCore.globalobjects.themes[mapid].layers[aLayer.id] = aLayer;		
     xCore.globalobjects.themes[mapid].layers[aLayer.id].on = false;   
 };
 
+//Build Tree
 ns_interface.buildBranch = function(mapid,layersFound){
     var layerList = document.getElementById("layerList");
 	layerList.innerHTML = "";
 			
 	var layerNode = document.createElement("ul");
 		layerNode.setAttribute("class","nav nav-pills nav-stacked");
-		layerNode.id = mapid;
+		layerNode.id = "ul__" + mapid;
   
 	for (var i = 0 ; i < layersFound.length ; i++){                			
 		var newNode = document.createElement("li");
 		    newNode.setAttribute("class","layerOff");
-		var anId;
-		var folderid = "";
-		
-		if(layersFound[i].type === "layer"){
-		    anId = layersFound[i].id;
-		    folderid = anId;
-		} 
-		else if(layersFound[i].type === "folder" && layersFound[i].contents && layersFound[i].contents.length > 0){
-		    anId = layersFound[i].contents[0].id;
-		    for (var j = 0; j < layersFound[i].contents.length; j++){
-		        folderid += layersFound[i].contents[j].id + "__"
-		    }
-		    folderid = folderid.substring( 0, folderid.length - 2);
-		}
-		
-		newNode.id = anId;
+		    newNode.id = "li__" + mapid + "__" + i;
 		
 		if(layersFound[i].disabled){
 		    newNode.setAttribute("class","layerDisabled");
@@ -396,9 +351,10 @@ ns_interface.buildBranch = function(mapid,layersFound){
         }
                         
         var newRef = document.createElement("a"); 
-        newRef.id = anId;
+        //newRef.id = anId;
+        newRef.id = 'a__' + mapid + "__" + i;
         newRef.setAttribute("mapid", mapid);
-        newRef.setAttribute("contents", folderid);
+        newRef.setAttribute("nodeid", i);
         newRef.innerHTML = layersFound[i].name;
         if(!layersFound[i].disabled){
             newRef.setAttribute("href","#");
@@ -412,61 +368,68 @@ ns_interface.buildBranch = function(mapid,layersFound){
 	layerList.appendChild(layerNode);
 };
 
-ns_interface.viewLayer = function(layernode){
-    if(layernode && layernode.attributes['mapid'] && layernode.attributes['contents']){
-        var aMap = xCore.globalobjects.themes[layernode.attributes['mapid'].value];
-        var layersFound = layernode.attributes['contents'].value.split('__');
-        for (var i = 0; i < layersFound.length; i++) {
-            var aLayer = aMap.layers[layersFound[i]];                
+ns_interface.viewLayer = function(node){
+    if(node && node.id && node.attributes['mapid']){
+        var aMap = xCore.globalobjects.themes[node.attributes['mapid'].value];
+        var aTheme = aMap.contents[node.attributes['nodeid'].value];
+        var someLayers = [];
+        
+        if (aTheme.type === 'folder') {
+            for (var i = 0; i < aTheme.contents.length; i++) {
+                someLayers.push(aTheme.contents[i]);    
+            }
+        } else {
+            someLayers.push(aTheme);
+        }
+        
+        for (var i = 0; i < someLayers.length; i++) {
+            var aLayer = aMap.layers[someLayers[i].id];
+            aLayer.mapid = node.attributes['mapid'].value;
+            aLayer.themeid = node.attributes['nodeid'].value;
+            
             if(aLayer){
-                var on = aLayer.on;
-                if(!on){
+                if(!aLayer.on){
                     ns_gmaps.addMapsEngineLayer(aLayer);                                               
                 } else {
-                    ns_gmaps.removeMapsEngineLayer(aLayer.id);                                            
+                    ns_gmaps.removeMapsEngineLayer(aLayer);                                            
                 }            
             }   
         }
     }
 };
 
-ns_interface.setLayerOnOff = function(id , on){
-    var layernode = document.getElementById(id);  
-    var aMap, aLayer;
+ns_interface.setLayerOnOff = function(layer){
     
-    if(layernode && layernode.parentElement){
-        aMap = xCore.globalobjects.themes[layernode.parentElement.id];
-        aLayer = aMap.layers[layernode.id];
-        
-        aLayer.on = on;
-  
-        if(on){
-          layernode.setAttribute("class","layerOn");
-        } else {
-          layernode.setAttribute("class","layerOff");
-        }
+    var leaf = document.getElementById("li__" + layer.mapid + "__" + layer.themeid);
+    if(layer.on){
+      leaf.setAttribute("class","layerOn");
+    } else {
+      leaf.setAttribute("class","layerOff");
     }
+    
 };
 
- ns_interface.disableLayer = function(id){
-    var layernode = document.getElementById(id);
-    var layerRef = document.getElementById("a__" + id); 
-    var aMap, aLayer;
-    if(layernode && layernode.parentElement){
-        aMap = xCore.globalobjects.themes[layernode.parentElement.id];
-        aLayer = aMap.layers[layernode.id];
-        aLayer.disabled = true;
-        //Just styles
-        layerRef.removeAttribute('href');
-        layerRef.removeAttribute('onclick');
-        layernode.setAttribute('class','layerDisabled');
+ns_interface.disableLayer = function(layer){
+    var li = document.getElementById("li__" + layer.mapid + "__" + layer.themeid);
+    var a = document.getElementById("a__" + layer.mapid + "__" + layer.themeid);
+    
+    if(layer.disabled){
+        a.removeAttribute('href');
+        a.removeAttribute('onclick');
+        li.setAttribute('class','layerDisabled');
     }
- };
+};
 
 /**
  * END THEME TREE 
  **/
- 
+
+
+//INTERFACE COMPONENTS EVENT LISTENERS 
 $("#layerGoto").click( function(){
    xCore.settings.user.layerAutoGoto = this.checked;
+});
+
+$('#themeSelect').change(function(){
+   ns_interface.requestLayers($(this).find('option:selected').attr('id'));
 });

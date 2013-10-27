@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<return xmlns:sw="http://www.gesmallworld.com/sw" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:swgml="http://www.gesmallworld.com/swgml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gml="http://www.opengis.net/gml" xmlns:wfs="http://www.opengis.net/wfs" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <service_response service="object_info" request="info" request_id="7949628D9FB33332A098607F7D8D0DC6-1380040881889" session_id="7949628D9FB33332A098607F7D8D0DC6">
+    <crs>portugal_tm06_etrs_mm</crs>
+    <object_info>
+      <hash>
+        <element key="swrefVrecordVdatasetZgisVcollectionZp_aproveitamento_hidroelectricoVkeysZ801101307254407194">
+          <hash>
+            <element key="feature">
+              <gml:FeatureCollection xsi:schemaLocation="http://www.gesmallworld.com/sw http://edpsmwprdap1.cpdprd.pt:80/gss/resource/xsd/gis.p_aproveitamento_hidroelectrico.xsd?token=1129471556">
+                <gml:boundedBy>
+                  <gml:Envelope srsName="portugal_tm06_etrs_mm">
+                    <gml:lowerCorner>-5837403.0 2.44744133E8</gml:lowerCorner>
+                    <gml:upperCorner>-5837403.0 2.44744133E8</gml:upperCorner>
+                  </gml:Envelope>
+                </gml:boundedBy>
+                <gml:featureMembers>
+                  <sw:gis.p_aproveitamento_hidroelectrico gml:id="swrefVrecordVdatasetZgisVcollectionZp_aproveitamento_hidroelectricoVkeysZ801101307254407194">
+                    <sw:nome>Alto Lindoso</sw:nome>
+                    <sw:bacia_hidrografica />
+                    <sw:curso_agua />
+                    <sw:nome_barragens />
+                    <sw:tipo_aproveitamento>Albufeira</sw:tipo_aproveitamento>
+                    <sw:potencia_instalada uom="http://edpsmwprdap1.cpdprd.pt:80/gss/resource/uom/swUnitsDictionary.xml?token=1156861998#megawatt">0</sw:potencia_instalada>
+                    <sw:numero_grupos>0</sw:numero_grupos>
+                    <sw:capacidade_util_hm3>0</sw:capacidade_util_hm3>
+                    <sw:capacidade_util_gwh>0</sw:capacidade_util_gwh>
+                    <sw:p_centro_producao />
+                    <sw:p_barragem_albufeiras>
+                      <sw:count>1</sw:count>
+                    </sw:p_barragem_albufeiras>
+                    <sw:p_centrals />
+                    <sw:p_circuito_hidraulicos />
+                    <sw:p_estacao_meteorologicas />
+                    <sw:p_sitio_patrimonials />
+                    <sw:p_ponto_monitorizacaos />
+                    <sw:p_monitorizacao_hidrogeologicas />
+                    <sw:p_recursos_faunisticoss />
+                    <sw:p_local_monitorizacao_floras />
+                    <sw:p_terreno_sobrantes />
+                    <sw:p_zona_proteccaos />
+                    <sw:p_carta_geologica_pormenors />
+                    <sw:p_campanha_prospeccao_geol_geots />
+                    <sw:p_documento_externos>
+                      <sw:count>1</sw:count>
+                    </sw:p_documento_externos>
+                    <sw:link>http://www.a-nossa-energia.edp.pt/centros_produtores</sw:link>
+                    <sw:actualizado_por>geseroj</sw:actualizado_por>
+                    <sw:data_actualizacao>2013-07-08T16:07:34.00+01:00</sw:data_actualizacao>
+                    <sw:observacoes />
+                    <sw:ponto>swrefVgeometryVdatasetZgisVcollectionZp_aproveitamento_hidroelectricoVfieldZpontoVlocalZTrueVkeysZ2921071X582024283X801101307254407195</sw:ponto>
+                  </sw:gis.p_aproveitamento_hidroelectrico>
+                </gml:featureMembers>
+              </gml:FeatureCollection>
+            </element>
+            <element key="joined_objects">
+              <hash>
+                <element key="feature_start">1</element>
+                <element key="feature_count">1</element>
+                <element key="features">
+                  <gml:FeatureCollection xsi:schemaLocation="http://www.gesmallworld.com/sw http://edpsmwprdap1.cpdprd.pt:80/gss/resource/xsd/gis.p_barragem_albufeira.xsd?token=-1010147372">
+                    <gml:boundedBy>
+                      <gml:Envelope srsName="portugal_tm06_etrs_mm">
+                        <gml:lowerCorner>-5904593.0 2.44579822E8</gml:lowerCorner>
+                        <gml:upperCorner>-5719302.0 2.44813962E8</gml:upperCorner>
+                      </gml:Envelope>
+                    </gml:boundedBy>
+                    <gml:featureMembers>
+                      <sw:gis.p_barragem_albufeira gml:id="swrefVrecordVdatasetZgisVcollectionZp_barragem_albufeiraVkeysZ801101307254407371">
+                        <sw:nome>Barragem de Alto Lindoso</sw:nome>
+                        <sw:localizacao_barragem>Castelo - Lindoso - Ponte da Barca</sw:localizacao_barragem>
+                        <sw:altura_maxima uom="http://edpsmwprdap1.cpdprd.pt:80/gss/resource/uom/swUnitsDictionary.xml?token=1156861998#m">110</sw:altura_maxima>
+                        <sw:cota_coroamento uom="http://edpsmwprdap1.cpdprd.pt:80/gss/resource/uom/swUnitsDictionary.xml?token=1156861998#m">339</sw:cota_coroamento>
+                        <sw:curso_agua>Lima</sw:curso_agua>
+                        <sw:area_inundada uom="http://edpsmwprdap1.cpdprd.pt:80/gss/resource/uom/swUnitsDictionary.xml?token=1156861998#hectare">1072</sw:area_inundada>
+                        <sw:p_aproveitamento_hidroelectrico>
+                          <sw:count>1</sw:count>
+                        </sw:p_aproveitamento_hidroelectrico>
+                        <sw:p_curso_agua />
+                        <sw:p_descarregadors />
+                        <sw:p_eclusa_navegacaos />
+                        <sw:p_mancha_inundacaos />
+                        <sw:p_curva_regolfos />
+                        <sw:p_obras_complementaress />
+                        <sw:p_ocorrencia_plano_emergencias />
+                        <sw:p_zona_autosalvamentos />
+                        <sw:p_documento_externos />
+                        <sw:actualizado_por>geseroj</sw:actualizado_por>
+                        <sw:data_actualizacao>2013-07-30T20:12:12.00+01:00</sw:data_actualizacao>
+                        <sw:observacoes />
+                        <sw:area_barragem>swrefVgeometryVdatasetZgisVcollectionZp_barragem_albufeiraVfieldZarea_barragemVlocalZTrueVkeysZ2921071X0X801101307254407372</sw:area_barragem>
+                      </sw:gis.p_barragem_albufeira>
+                    </gml:featureMembers>
+                  </gml:FeatureCollection>
+                </element>
+                <element key="feature_total">1</element>
+              </hash>
+            </element>
+          </hash>
+        </element>
+      </hash>
+    </object_info>
+  </service_response>
+</return>
+

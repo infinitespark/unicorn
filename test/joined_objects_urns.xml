@@ -1,0 +1,43 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<return xmlns:sw="http://www.gesmallworld.com/sw" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:swgml="http://www.gesmallworld.com/swgml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gml="http://www.opengis.net/gml" xmlns:wfs="http://www.opengis.net/wfs" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <service_response service="object_info" request="info" request_id="964613B9BFC9E4F3ED72B74A3C1FADC2-1382707343102" session_id="964613B9BFC9E4F3ED72B74A3C1FADC2">
+    <crs>portugal_tm06_etrs_mm</crs>
+    <object_info>
+      <hash>
+        <element key="swrefVrecordVdatasetZgisVcollectionZp_aproveitamento_hidroelectricoVkeysZ801101307254407194">
+          <hash>
+            <element key="feature">
+              <gml:FeatureCollection xsi:schemaLocation="http://www.gesmallworld.com/sw http://edpsmwpreap1.cpdprd.pt:80/gss/resource/xsd/gis.p_aproveitamento_hidroelectrico.xsd?token=1129471556">
+                <gml:boundedBy>
+                  <gml:Null>This feature collection contains no geometry in the geographic world</gml:Null>
+                </gml:boundedBy>
+                <gml:featureMembers>
+                  <sw:gis.p_aproveitamento_hidroelectrico gml:id="swrefVrecordVdatasetZgisVcollectionZp_aproveitamento_hidroelectricoVkeysZ801101307254407194" />
+                </gml:featureMembers>
+              </gml:FeatureCollection>
+            </element>
+            <element key="joined_objects">
+              <hash>
+                <element key="feature_start">1</element>
+                <element key="feature_count">1</element>
+                <element key="features">
+                  <gml:FeatureCollection xsi:schemaLocation="http://www.gesmallworld.com/sw http://edpsmwpreap1.cpdprd.pt:80/gss/resource/xsd/gis.p_barragem_albufeira.xsd?token=-1010147372">
+                    <gml:boundedBy>
+                      <gml:Null>This feature collection contains no geometry in the geographic world</gml:Null>
+                    </gml:boundedBy>
+                    <gml:featureMembers>
+                      <sw:gis.p_barragem_albufeira gml:id="swrefVrecordVdatasetZgisVcollectionZp_barragem_albufeiraVkeysZ801101307254407371" />
+                    </gml:featureMembers>
+                  </gml:FeatureCollection>
+                </element>
+                <element key="feature_total">1</element>
+              </hash>
+            </element>
+          </hash>
+        </element>
+      </hash>
+    </object_info>
+  </service_response>
+</return>
+

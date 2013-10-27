@@ -99,7 +99,7 @@
       font-size:x-small;
   }
   
-  #map-canvas
+  #map_canvas
   {
       position:absolute;
       left:0px;
@@ -109,7 +109,7 @@
       z-index:0;
   }
   
-  #map-canvas img { 
+  #map_canvas img { 
     max-width: none;
   }
   

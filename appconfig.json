@@ -8,7 +8,14 @@
             "user": {
                 "layerAutoGoto": false
             },
-            "app" :{}
+            "application" :{
+                "browser" : {
+                    "ie" : false,
+                    "name" : "",
+                    "full" : ""
+                },
+                "resolution":""
+            }
         }
     },
     "modules": [
@@ -20,7 +27,7 @@
                 "oauthurl": "https://accounts.google.com/o/oauth2/auth",
                 "clientId": "888531530449-t6ks5b1n4s3ncad9d0okrfiu96ggnjip.apps.googleusercontent.com",
                 "scopes": "https://www.googleapis.com/auth/mapsengine https://www.googleapis.com/auth/userinfo.profile",
-                "redirectUrl": "https://c9.io/infinite_spark/unicorn/workspace/index.html"
+                "redirectUrl": "https://c9.io/infinite_spark/whiteunicorn/workspace/index.html"
             }
         },
         {
@@ -185,6 +192,36 @@
             "description": "Class to handle UI design",
             "source": "interface",
             "settings": {}
+        },
+        {
+            "name": "GSS",
+            "description": "Class to handle GSS Requests",
+            "source": "gss",
+            "settings": {
+                "gssBaseUrl" : "http://edpsmwprdap1.cpdprd.pt/gss/native?",
+                "xmlnamespaces" : {
+                    "gml":"http://www.opengis.net/gml",  
+                    "wfs":"http://www.opengis.net/wfs", 
+                    "xsi":"http://www.w3.org/2001/XMLSchema-instance",
+                    "xsd":"http://www.w3.org/2001/XMLSchema",
+                    "xlink":"http://www.w3.org/1999/xlink",
+                    "sw":"http://www.gesmallworld.com/sw",
+                    "swgml":"http://www.gesmallworld.com/swgml"
+                },
+                "xpathKeys" : {
+                    "objectInfo" : "return/service_response/object_info"
+                }, 
+                "richfields" : {
+                    "link" : {
+                        "html" : "<i class='icon-share-alt'></i>",
+                        "handler" : "ns_gss.editor.gotoLink"
+                    },
+                    "data_actualizacao" : {
+                        "html" : "ns_gss.editor.parseDate(netvalue)",
+                        "handler" : "ns_gss.editor.parseDate"
+                    }
+                }
+            }
         }
     ]
 }
